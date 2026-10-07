@@ -39,7 +39,7 @@ export function HomePageClient({
     weather: "all",
   });
 
-  // Client-side refresh on custom events or after mount if needed
+  // Client-side refresh on custom events or fallback if server data was empty
   useEffect(() => {
     async function refreshData() {
       try {
@@ -65,6 +65,11 @@ export function HomePageClient({
       } catch (e) {
         // Fallback silently to initial server-rendered data
       }
+    }
+
+    // Only fetch if initial server data was absent
+    if (!initialPhotos || initialPhotos.length === 0) {
+      refreshData();
     }
 
     // Check if URL hash is #archive to auto-open archive
@@ -246,10 +251,10 @@ export function HomePageClient({
         {showFullArchive && (
           <motion.section
             id="archive"
-            initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, y: -20, filter: "blur(8px)" }}
-            transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="relative pt-6 pb-12 border-t border-zinc-200 dark:border-white/[0.08]"
           >
             {/* Interactive Filter & Prompt Bar */}

@@ -19,16 +19,14 @@ export function PhotoCard({ photo, onSelect, index }: PhotoCardProps) {
 
   return (
     <motion.div
-      layout
       variants={{
-        hidden: { opacity: 0, y: 24 },
+        hidden: { opacity: 0, y: 20 },
         visible: {
           opacity: 1,
           y: 0,
           transition: {
-            type: "spring",
-            damping: 25,
-            stiffness: 200,
+            duration: 0.4,
+            ease: "easeOut",
           },
         },
       }}
@@ -36,7 +34,7 @@ export function PhotoCard({ photo, onSelect, index }: PhotoCardProps) {
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       onClick={() => onSelect(photo)}
-      className="group relative rounded-2xl overflow-hidden cursor-pointer border border-white/10 hover:border-white/30 bg-zinc-950 shadow-2xl transition-all duration-300 aspect-[16/11] flex flex-col justify-end select-none"
+      className="group relative rounded-2xl overflow-hidden cursor-pointer border border-white/10 hover:border-white/30 bg-zinc-950 shadow-2xl transition-[border-color,box-shadow] duration-200 aspect-[16/11] flex flex-col justify-end select-none"
       onContextMenu={(e) => e.preventDefault()}
     >
       {/* Outer Subtle Edge Glow */}
@@ -61,10 +59,8 @@ export function PhotoCard({ photo, onSelect, index }: PhotoCardProps) {
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         loading="lazy"
         onLoad={() => setImageLoaded(true)}
-        className={`object-cover w-full h-full pointer-events-none select-none transition-all duration-700 ease-out group-hover:scale-105 ${
-          imageLoaded
-            ? "filter-none opacity-100"
-            : "filter blur-lg scale-105 opacity-0"
+        className={`object-cover w-full h-full pointer-events-none select-none transition-transform duration-500 ease-out group-hover:scale-105 transition-opacity ${
+          imageLoaded ? "opacity-100" : "opacity-0"
         }`}
       />
 

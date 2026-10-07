@@ -44,7 +44,6 @@ export function FeaturedCollage({
         opacity: 1,
         x: 0,
         y: 0,
-        filter: "blur(0px)",
       };
     }
 
@@ -54,7 +53,6 @@ export function FeaturedCollage({
         opacity: 1,
         x: 0,
         y: 0,
-        filter: "blur(0px)",
       };
     }
 
@@ -85,10 +83,9 @@ export function FeaturedCollage({
 
     return {
       scale: 0.97,
-      opacity: 0.38,
+      opacity: 0.42,
       x,
       y,
-      filter: "blur(0.5px)",
     };
   };
 
@@ -199,10 +196,10 @@ export function FeaturedCollage({
     >
       {/* Vercel SaaS Header: Clean Bold Typography with Scroll Reveal */}
       <motion.div
-        initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
+        transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
         className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8"
       >
         <div>
@@ -240,10 +237,10 @@ export function FeaturedCollage({
         {/* Left Column (Hero Card): 7 Cols, Full Height */}
         {collagePhotos[0] && (
           <motion.div
-            initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+            transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="lg:col-span-7 h-[360px] sm:h-[480px] lg:h-[580px]"
           >
             {renderCollageCard(
@@ -260,10 +257,10 @@ export function FeaturedCollage({
           {/* Top Right Card: Wide 1 Card */}
           {collagePhotos[1] && (
             <motion.div
-              initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.8, delay: 0.12, ease: [0.21, 0.47, 0.32, 0.98] }}
+              transition={{ duration: 0.7, delay: 0.08, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="h-[220px] sm:h-[260px] lg:h-[275px]"
             >
               {renderCollageCard(collagePhotos[1], 1, "w-full h-full")}
@@ -274,10 +271,10 @@ export function FeaturedCollage({
           <div className="grid grid-cols-2 gap-4 sm:gap-5 flex-1 min-h-[190px] sm:min-h-[220px] lg:min-h-[285px]">
             {collagePhotos[2] && (
               <motion.div
-                initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.8, delay: 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
+                transition={{ duration: 0.7, delay: 0.16, ease: [0.21, 0.47, 0.32, 0.98] }}
                 className="h-full"
               >
                 {renderCollageCard(collagePhotos[2], 2, "w-full h-full")}
@@ -285,10 +282,10 @@ export function FeaturedCollage({
             )}
             {collagePhotos[3] && (
               <motion.div
-                initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.8, delay: 0.32, ease: [0.21, 0.47, 0.32, 0.98] }}
+                transition={{ duration: 0.7, delay: 0.24, ease: [0.21, 0.47, 0.32, 0.98] }}
                 className="h-full"
               >
                 {renderCollageCard(collagePhotos[3], 3, "w-full h-full")}

@@ -29,10 +29,19 @@ export function Navbar({ initialBrand }: NavbarProps) {
   const { theme, toggleTheme, language, toggleLanguage, t } = useApp();
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 15);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 15);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
 
     // Only fetch if initialBrand was not provided or on curator update
     const fetchBrand = async () => {

@@ -40,10 +40,10 @@ export function AboutGearSection({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left: Bio & Journey Narrative */}
             <motion.div
-              initial={{ opacity: 0, x: -30, filter: "blur(6px)" }}
-              whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+              transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="lg:col-span-6 space-y-5"
             >
               <h2 className="text-2xl sm:text-4xl font-bold text-zinc-900 dark:text-white tracking-tight leading-snug font-jakarta">
@@ -69,10 +69,10 @@ export function AboutGearSection({
 
             {/* Right: Static Sample Photo */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="lg:col-span-6"
             >
               <div 
@@ -124,10 +124,10 @@ export function AboutGearSection({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left: Gear / Setup Photograph */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+              transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="lg:col-span-5 order-2 lg:order-1"
             >
               <div 
@@ -165,10 +165,10 @@ export function AboutGearSection({
 
             {/* Right: Technical Arsenal Text & Inventory */}
             <motion.div
-              initial={{ opacity: 0, x: 28, filter: "blur(6px)" }}
-              whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="lg:col-span-7 order-1 lg:order-2 space-y-6"
             >
               <div>

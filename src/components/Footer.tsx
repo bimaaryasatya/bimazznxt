@@ -48,10 +48,10 @@ export function Footer({ initialContent }: FooterProps) {
 
   return (
     <motion.footer
-      initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+      transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
       className="relative z-10 border-t border-zinc-200 dark:border-white/[0.08] bg-white/95 dark:bg-[#030303]/90 backdrop-blur-md pt-16 pb-12 mt-24"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
