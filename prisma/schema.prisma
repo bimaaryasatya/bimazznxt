@@ -1,0 +1,45 @@
+// Prisma Schema for Railway Photography Portfolio
+// Compatible with PostgreSQL (Supabase / Neon / Railway) and SQLite for local development
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Photo {
+  id           String   @id @default(uuid())
+  title        String
+  description  String?
+  imageUrl     String
+  thumbnailUrl String?
+  locomotive   String   // e.g. "CC 201", "CC 203", "CC 206", "Vintage"
+  trainName    String?  // e.g. "Argo Bromo Anggrek", "Taksaka"
+  location     String   // e.g. "Jembatan Sakalibel, Bumiayu"
+  region       String?  // e.g. "Daop 5 Purwokerto"
+  dateTaken    DateTime
+  tags         String[] // Array of category tags
+  cameraModel  String?  // e.g. "Sony ILCE-7M4"
+  lens         String?  // e.g. "FE 70-200mm F2.8 GM OSS II"
+  focalLength  String?  // e.g. "105mm"
+  aperture     String?  // e.g. "f/4.0"
+  shutterSpeed String?  // e.g. "1/800s"
+  iso          String?  // e.g. "ISO 250"
+  isFeatured   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([locomotive])
+  @@index([location])
+  @@index([dateTaken])
+}
+
+model AdminSession {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

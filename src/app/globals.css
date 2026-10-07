@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #030303;
+  --foreground: #f4f4f5;
+  --muted: #a1a1aa;
+  --card-bg: rgba(255, 255, 255, 0.02);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-border-hover: rgba(255, 255, 255, 0.2);
+  --accent-cyan: #06b6d4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  background-color: #030303;
+}
+
+body {
+  background-color: #030303;
+  color: #f4f4f5;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(6, 182, 212, 0.35);
+  color: #ffffff;
+}
+
+/* ============================================================================
+   LIGHT MODE (Pristine, High-Contrast Modern SaaS Aesthetic)
+   ============================================================================ */
+html.light {
+  color-scheme: light;
+  background-color: #f8fafc !important;
+}
+
+html.light body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* Light Mode Background Grid */
+html.light .bg-grid-pattern,
+html.light .bg-dot-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.05) 1px, transparent 1px) !important;
+  background-size: 32px 32px !important;
+}
+
+/* Light Mode Navbar Header */
+html.light header {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-bottom-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Light Mode Typography Overrides (Except inside photographs and theater lightbox) */
+html.light h1:not(.photo-text-overlay h1):not(.photo-lightbox *),
+html.light h2:not(.photo-text-overlay h2):not(.photo-lightbox *),
+html.light h3:not(.photo-text-overlay h3):not(.photo-lightbox *),
+html.light h4:not(.photo-text-overlay h4):not(.photo-lightbox *) {
+  color: #0f172a !important;
+}
+
+html.light .text-zinc-100:not(.photo-text-overlay *):not(.photo-lightbox *) {
+  color: #0f172a !important;
+}
+
+html.light .text-zinc-200:not(.photo-text-overlay *):not(.photo-lightbox *) {
+  color: #1e293b !important;
+}
+
+html.light .text-zinc-300:not(.photo-text-overlay *):not(.photo-lightbox *) {
+  color: #334155 !important;
+}
+
+html.light .text-zinc-400:not(.photo-text-overlay *):not(.photo-lightbox *) {
+  color: #64748b !important;
+}
+
+html.light .text-zinc-500:not(.photo-text-overlay *):not(.photo-lightbox *) {
+  color: #64748b !important;
+}
+
+/* Light Mode Hero Headline Gradient */
+html.light .bg-gradient-to-r.from-indigo-300 {
+  background-image: linear-gradient(to right, #0284c7, #0891b2, #4f46e5) !important;
+}
+
+/* Light Mode Glass Panels & Containers */
+html.light .glass-panel:not(.photo-lightbox *),
+html.light .glass-panel-elevated:not(.photo-lightbox *),
+html.light .bg-zinc-950:not(.photo-lightbox):not(.photo-lightbox *),
+html.light .bg-zinc-950\/80:not(.photo-lightbox *),
+html.light .bg-zinc-950\/50:not(.photo-lightbox *),
+html.light .bg-zinc-950\/40:not(.photo-lightbox *),
+html.light .bg-zinc-950\/30:not(.photo-lightbox *) {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light .border-white\/10,
+html.light .border-white\/15,
+html.light .border-white\/20,
+html.light .border-white\/\[0\.08\],
+html.light .border-white\/\[0\.07\],
+html.light .border-white\/\[0\.06\],
+html.light .border-white\/\[0\.05\] {
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-white\/\[0\.01\],
+html.light .bg-white\/\[0\.02\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\] {
+  background-color: #f8fafc !important;
+}
+
+/* Light Mode Form Inputs & Controls */
+html.light input[type="text"],
+html.light input[type="password"],
+html.light input[type="url"],
+html.light input[type="search"],
+html.light textarea,
+html.light select {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+html.light input:focus,
+html.light textarea:focus,
+html.light select:focus {
+  border-color: #06b6d4 !important;
+  box-shadow: 0 0 0 1px #06b6d4 !important;
+}
+
+/* Light Mode Footer */
+html.light footer {
+  border-top-color: #e2e8f0 !important;
+  background-color: #ffffff !important;
+}
+
+/* Light Mode Aurora Mesh Tint (Softened, never muddy) */
+html.light .animate-aurora-slow,
+html.light .animate-aurora-reverse {
+  opacity: 0.12 !important;
+}
+
+/* ============================================================================
+   PHOTOGRAPH TEXT OVERLAY PRESERVATION
+   (Ensures text overlaid directly on images stays crisp white on dark gradients)
+   ============================================================================ */
+.photo-text-overlay,
+.photo-text-overlay h3,
+.photo-text-overlay h4,
+.photo-text-overlay p,
+.photo-text-overlay span,
+.photo-text-overlay .text-white,
+.photo-text-overlay .text-zinc-100,
+.photo-text-overlay .text-zinc-200 {
+  color: #ffffff !important;
+}
+
+.photo-text-overlay .text-zinc-300 {
+  color: #e2e8f0 !important;
+}
+
+.photo-text-overlay .text-zinc-400 {
+  color: #cbd5e1 !important;
+}
+
+.photo-text-overlay .text-cyan-400 {
+  color: #38bdf8 !important;
+}
+
+.photo-lightbox h2,
+.photo-lightbox h3,
+.photo-lightbox h4,
+.photo-lightbox p,
+.photo-lightbox .text-white,
+.photo-lightbox .text-zinc-100,
+.photo-lightbox .text-zinc-200,
+.photo-lightbox .text-zinc-300 {
+  color: #ffffff !important;
+}
+
+.photo-lightbox .text-zinc-400 {
+  color: #a1a1aa !important;
+}
+
+.photo-lightbox .text-cyan-400,
+.photo-lightbox .text-cyan-300 {
+  color: #22d3ee !important;
+}
+
+/* ============================================================================
+   ADMIN STUDIO LIGHT MODE STYLING
+   ============================================================================ */
+html.light .admin-canvas {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+html.light .admin-card {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light .admin-tab-inactive {
+  color: #475569 !important;
+  background-color: transparent !important;
+}
+
+html.light .admin-tab-inactive:hover {
+  color: #0f172a !important;
+  background-color: #f1f5f9 !important;
+}
+
+html.light .admin-tab-active {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+html.light .admin-status-pill {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #334155 !important;
+}
+
+/* ============================================================================
+   SHARED UTILITIES
+   ============================================================================ */
+.bg-grid-pattern,
+.bg-dot-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-panel-elevated {
+  background: rgba(18, 18, 22, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Shimmer Loading Effect */
+.shimmer-mask {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.45);
+}
