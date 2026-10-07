@@ -780,7 +780,7 @@ export default function AdminDashboardPage() {
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src="/tab-icon.png" alt="Tab Icon" className="w-3.5 h-3.5 rounded-sm object-contain" />
                       <span className="text-[11px] font-medium truncate max-w-[220px]">
-                        {siteContent.brand?.tabTitle || "BIMA | 6-Year Railway Documentary"}
+                        {siteContent.brand?.tabTitle || "BIMA | Railway Documentary Photography Archive"}
                       </span>
                     </div>
                   </div>
@@ -807,7 +807,7 @@ export default function AdminDashboardPage() {
                         document.title = newTitle;
                       }
                     }}
-                    placeholder="e.g. BIMA | 6-Year Railway Documentary Photography Archive"
+                    placeholder="e.g. BIMA | Railway Documentary Photography Archive"
                     className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans text-xs transition-colors"
                   />
                 </div>

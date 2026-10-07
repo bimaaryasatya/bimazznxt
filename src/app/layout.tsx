@@ -21,9 +21,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "BIMA | 6-Year Railway Documentary Photography Archive",
+  metadataBase: new URL("https://www.bimazznxt.my.id"),
+  title: "BIMA | Railway Documentary Photography Archive",
   description:
-    "A premier railway photography archive documenting 6 years of Indonesian railway heritage, locomotives CC 201, CC 203, CC 206, and iconic mainline lines with verified EXIF data.",
+    "A premier railway photography archive documenting Indonesian railway heritage, locomotives CC 201, CC 203, CC 206, and iconic mainline routes with verified optical EXIF data.",
   icons: {
     icon: [
       { url: "/tab-icon.png", type: "image/png" },
@@ -31,6 +32,30 @@ export const metadata: Metadata = {
     ],
     shortcut: "/tab-icon.png",
     apple: "/tab-icon.png",
+  },
+  openGraph: {
+    title: "BIMA | Railway Documentary Photography Archive",
+    description:
+      "A premier railway photography archive documenting Indonesian railway heritage, locomotives CC 201, CC 203, CC 206, and iconic mainline routes with verified optical EXIF data.",
+    url: "https://www.bimazznxt.my.id",
+    siteName: "BIMA | Railway Documentary Photography Archive",
+    images: [
+      {
+        url: "/tab-icon.png",
+        width: 800,
+        height: 800,
+        alt: "BIMA | Railway Documentary Photography Archive",
+      },
+    ],
+    locale: "id_ID",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BIMA | Railway Documentary Photography Archive",
+    description:
+      "A premier railway photography archive documenting Indonesian railway heritage, locomotives CC 201, CC 203, CC 206, and iconic mainline routes with verified optical EXIF data.",
+    images: ["/tab-icon.png"],
   },
   keywords: [
     "railway photography",

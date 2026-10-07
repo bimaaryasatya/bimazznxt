@@ -59,7 +59,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
   brand: {
     name: "BIMA",
     tag: "/ archive",
-    tabTitle: "BIMA | 6-Year Railway Documentary Photography Archive",
+    tabTitle: "BIMA | Railway Documentary Photography Archive",
   },
   hero: {
     headline: "The Raw Soul of",
