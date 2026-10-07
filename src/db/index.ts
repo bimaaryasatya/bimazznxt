@@ -18,7 +18,7 @@ if (connectionString && connectionString.trim() !== "" && connectionString.inclu
     const client = postgres(connectionString, {
       max: 10,
       idle_timeout: 20,
-      connect_timeout: 10,
+      connect_timeout: 4, // 4s timeout for fast fallback
       prepare: false, // Recommended for Supabase transaction pooler (port 6543)
     });
     drizzleDb = drizzle(client, { schema });
@@ -29,6 +29,24 @@ if (connectionString && connectionString.trim() !== "" && connectionString.inclu
 
 export const db = drizzleDb;
 export const isDrizzleActive = Boolean(drizzleDb);
+
+// High-speed in-memory caches to eliminate Supabase query roundtrips on repeated visits
+let memoryPhotosCache: Photo[] | null = null;
+let memoryPhotosCacheTime = 0;
+const CACHE_TTL_MS = 30 * 1000; // 30 seconds
+
+export function invalidatePhotosCache() {
+  memoryPhotosCache = null;
+  memoryPhotosCacheTime = 0;
+}
+
+let memoryContentCache: SiteContent | null = null;
+let memoryContentCacheTime = 0;
+
+export function invalidateContentCache() {
+  memoryContentCache = null;
+  memoryContentCacheTime = 0;
+}
 
 // Fallback local JSON storage paths (active when DATABASE_URL is not provided)
 const DATA_DIR = path.join(process.cwd(), ".data");
@@ -95,14 +113,19 @@ function writeLocalContent(content: SiteContent): void {
 // ============================================================================
 
 export async function getAllPhotosFromDb(filters?: Partial<FilterState>): Promise<Photo[]> {
-  if (drizzleDb) {
+  const now = Date.now();
+  let baseList: Photo[] | null = null;
+
+  if (memoryPhotosCache && now - memoryPhotosCacheTime < CACHE_TTL_MS) {
+    baseList = memoryPhotosCache;
+  } else if (drizzleDb) {
     try {
       const records = await drizzleDb
         .select()
         .from(schema.photos)
         .orderBy(desc(schema.photos.createdAt));
 
-      let result: Photo[] = records.map((r) => ({
+      baseList = records.map((r) => ({
         id: r.id,
         title: r.title,
         description: r.description || "",
@@ -127,81 +150,48 @@ export async function getAllPhotosFromDb(filters?: Partial<FilterState>): Promis
         createdAt: r.createdAt ? r.createdAt.toISOString() : new Date().toISOString(),
       }));
 
-      // Apply in-memory filtering if filter criteria provided
-      if (filters?.searchQuery) {
-        const q = filters.searchQuery.toLowerCase();
-        result = result.filter((p) =>
-          [p.title, p.description, p.locomotive, p.trainName, p.location, p.region, p.cameraModel, ...p.tags]
-            .join(" ")
-            .toLowerCase()
-            .includes(q)
-        );
-      }
-      if (filters?.locomotive && filters.locomotive !== "all") {
-        result = result.filter((p) => p.locomotive.toLowerCase() === filters.locomotive!.toLowerCase());
-      }
-      if (filters?.region && filters.region !== "all") {
-        result = result.filter(
-          (p) =>
-            (p.region?.toLowerCase().includes(filters.region!.toLowerCase()) ?? false) ||
-            p.location.toLowerCase().includes(filters.region!.toLowerCase())
-        );
-      }
-      if (filters?.weather && filters.weather !== "all") {
-        result = result.filter(
-          (p) =>
-            p.timeWeather?.toLowerCase() === filters.weather!.toLowerCase() ||
-            p.tags.some((t) => t.toLowerCase() === filters.weather!.toLowerCase())
-        );
-      }
-      return result;
+      memoryPhotosCache = baseList;
+      memoryPhotosCacheTime = now;
     } catch (err) {
       console.error("[Drizzle Error] Failed to query photos:", err);
     }
   }
 
-  // Fallback to local file / memory
-  const local = ensureLocalPhotos();
-  if (!filters) return local;
+  if (!baseList) {
+    baseList = ensureLocalPhotos();
+  }
 
-  return local.filter((photo) => {
-    if (filters.searchQuery) {
-      const q = filters.searchQuery.toLowerCase();
-      const matchText = [
-        photo.title,
-        photo.description,
-        photo.locomotive,
-        photo.trainName,
-        photo.location,
-        photo.region,
-        photo.cameraModel,
-        ...(photo.tags || []),
-      ]
+  let result = baseList;
+  if (!filters) return result;
+
+  // Apply in-memory filtering if filter criteria provided
+  if (filters.searchQuery) {
+    const q = filters.searchQuery.toLowerCase();
+    result = result.filter((p) =>
+      [p.title, p.description, p.locomotive, p.trainName, p.location, p.region, p.cameraModel, ...p.tags]
         .join(" ")
-        .toLowerCase();
-      if (!matchText.includes(q)) return false;
-    }
-    if (filters.locomotive && filters.locomotive !== "all") {
-      if (photo.locomotive.toLowerCase() !== filters.locomotive.toLowerCase()) return false;
-    }
-    if (filters.region && filters.region !== "all") {
-      if (
-        !photo.region?.toLowerCase().includes(filters.region.toLowerCase()) &&
-        !photo.location?.toLowerCase().includes(filters.region.toLowerCase())
-      ) {
-        return false;
-      }
-    }
-    if (filters.weather && filters.weather !== "all") {
-      if (
-        photo.timeWeather?.toLowerCase() !== filters.weather.toLowerCase() &&
-        !photo.tags.some((t) => t.toLowerCase() === filters.weather?.toLowerCase())
-      ) {
-        return false;
-      }
-    }
-    return true;
-  });
+        .toLowerCase()
+        .includes(q)
+    );
+  }
+  if (filters.locomotive && filters.locomotive !== "all") {
+    result = result.filter((p) => p.locomotive.toLowerCase() === filters.locomotive!.toLowerCase());
+  }
+  if (filters.region && filters.region !== "all") {
+    result = result.filter(
+      (p) =>
+        (p.region?.toLowerCase().includes(filters.region!.toLowerCase()) ?? false) ||
+        p.location.toLowerCase().includes(filters.region!.toLowerCase())
+    );
+  }
+  if (filters.weather && filters.weather !== "all") {
+    result = result.filter(
+      (p) =>
+        p.timeWeather?.toLowerCase() === filters.weather!.toLowerCase() ||
+        p.tags.some((t) => t.toLowerCase() === filters.weather!.toLowerCase())
+    );
+  }
+  return result;
 }
 
 export async function insertPhotoToDb(photo: Photo): Promise<Photo> {
@@ -230,6 +220,7 @@ export async function insertPhotoToDb(photo: Photo): Promise<Photo> {
         featured: photo.isFeatured || false,
         timeWeather: photo.timeWeather,
       });
+      invalidatePhotosCache();
       return photo;
     } catch (err) {
       console.error("[Drizzle Error] Insert photo failed:", err);
@@ -240,6 +231,7 @@ export async function insertPhotoToDb(photo: Photo): Promise<Photo> {
   const photos = ensureLocalPhotos();
   photos.unshift(photo);
   writeLocalPhotos(photos);
+  invalidatePhotosCache();
   return photo;
 }
 
@@ -276,6 +268,7 @@ export async function updatePhotoInDb(id: string, updates: Partial<Photo>): Prom
 
       const [updated] = await drizzleDb.select().from(schema.photos).where(eq(schema.photos.id, id));
       if (updated) {
+        invalidatePhotosCache();
         return {
           id: updated.id,
           title: updated.title,
@@ -312,6 +305,7 @@ export async function updatePhotoInDb(id: string, updates: Partial<Photo>): Prom
   if (idx === -1) return null;
   photos[idx] = { ...photos[idx], ...updates };
   writeLocalPhotos(photos);
+  invalidatePhotosCache();
   return photos[idx];
 }
 
@@ -319,6 +313,7 @@ export async function deletePhotoFromDb(id: string): Promise<boolean> {
   if (drizzleDb) {
     try {
       await drizzleDb.delete(schema.photos).where(eq(schema.photos.id, id));
+      invalidatePhotosCache();
       return true;
     } catch (err) {
       console.error("[Drizzle Error] Delete photo failed:", err);
@@ -330,6 +325,7 @@ export async function deletePhotoFromDb(id: string): Promise<boolean> {
   const filtered = photos.filter((p) => p.id !== id);
   if (filtered.length !== photos.length) {
     writeLocalPhotos(filtered);
+    invalidatePhotosCache();
     return true;
   }
   return false;
@@ -340,6 +336,11 @@ export async function deletePhotoFromDb(id: string): Promise<boolean> {
 // ============================================================================
 
 export async function getSiteContentFromDb(): Promise<SiteContent> {
+  const now = Date.now();
+  if (memoryContentCache && now - memoryContentCacheTime < CACHE_TTL_MS) {
+    return memoryContentCache;
+  }
+
   if (drizzleDb) {
     try {
       const records = await drizzleDb
@@ -349,7 +350,7 @@ export async function getSiteContentFromDb(): Promise<SiteContent> {
 
       if (records.length > 0) {
         const row = records[0];
-        return {
+        const res: SiteContent = {
           brand: { ...DEFAULT_SITE_CONTENT.brand, ...(row.brand || {}) },
           hero: { ...DEFAULT_SITE_CONTENT.hero, ...(row.hero || {}) },
           collage: { ...DEFAULT_SITE_CONTENT.collage, ...(row.collage || {}) },
@@ -357,6 +358,9 @@ export async function getSiteContentFromDb(): Promise<SiteContent> {
           categories: { ...DEFAULT_SITE_CONTENT.categories, ...(row.categories || {}) },
           footer: { ...DEFAULT_SITE_CONTENT.footer, ...(row.footer || {}) },
         };
+        memoryContentCache = res;
+        memoryContentCacheTime = now;
+        return res;
       } else {
         // Seed default row if empty
         await drizzleDb.insert(schema.siteContent).values({
@@ -368,6 +372,8 @@ export async function getSiteContentFromDb(): Promise<SiteContent> {
           categories: DEFAULT_SITE_CONTENT.categories,
           footer: DEFAULT_SITE_CONTENT.footer,
         });
+        memoryContentCache = DEFAULT_SITE_CONTENT;
+        memoryContentCacheTime = now;
         return DEFAULT_SITE_CONTENT;
       }
     } catch (err) {
@@ -375,10 +381,14 @@ export async function getSiteContentFromDb(): Promise<SiteContent> {
     }
   }
 
-  return ensureLocalContent();
+  const local = ensureLocalContent();
+  memoryContentCache = local;
+  memoryContentCacheTime = now;
+  return local;
 }
 
 export async function updateSiteContentInDb(updates: Partial<SiteContent>): Promise<SiteContent> {
+  invalidateContentCache();
   if (drizzleDb) {
     try {
       const current = await getSiteContentFromDb();
@@ -415,6 +425,8 @@ export async function updateSiteContentInDb(updates: Partial<SiteContent>): Prom
           },
         });
 
+      memoryContentCache = updated;
+      memoryContentCacheTime = Date.now();
       return updated;
     } catch (err) {
       console.error("[Drizzle Error] Update site content failed:", err);
@@ -431,5 +443,7 @@ export async function updateSiteContentInDb(updates: Partial<SiteContent>): Prom
     footer: updates.footer ? { ...current.footer, ...updates.footer } : current.footer,
   };
   writeLocalContent(updated);
+  memoryContentCache = updated;
+  memoryContentCacheTime = Date.now();
   return updated;
 }

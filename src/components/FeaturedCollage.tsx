@@ -123,14 +123,15 @@ export function FeaturedCollage({
       >
         {/* Full-Bleed Photograph Canvas */}
         <Image
-          src={photo.imageUrl}
+          src={photo.thumbnailUrl || photo.imageUrl}
           alt={photo.title}
           fill
           priority={isHero}
+          quality={80}
           sizes={
             isHero
-              ? "(max-width: 1024px) 100vw, 60vw"
-              : "(max-width: 1024px) 100vw, 40vw"
+              ? "(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 60vw"
+              : "(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 30vw"
           }
           className="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-105"
         />

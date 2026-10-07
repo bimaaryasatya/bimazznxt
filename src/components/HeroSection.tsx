@@ -70,7 +70,7 @@ export function HeroSection({
           </motion.p>
 
           {/* Quick Action Buttons */}
-          <motion.div variants={itemVariants} className="flex items-center justify-center gap-3">
+          <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             <a
               href="#archive"
               onClick={(e) => {

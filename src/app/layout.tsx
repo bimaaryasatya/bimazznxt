@@ -47,11 +47,15 @@ export const metadata: Metadata = {
   authors: [{ name: "Bima - Railway Documentary Photographer" }],
 };
 
-export default function RootLayout({
+import { getSiteContent } from "@/lib/siteContentServer";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteContent = await getSiteContent().catch(() => null);
+
   return (
     <html lang="en" className={`dark ${inter.variable}`} suppressHydrationWarning>
       <head>
@@ -61,7 +65,7 @@ export default function RootLayout({
         <AppProvider>
           <TabTitleSync />
           <AmbientAurora />
-          <Navbar />
+          <Navbar initialBrand={siteContent?.brand} />
           <main className="relative z-10 min-h-screen pt-20">{children}</main>
           <Footer />
           <Toaster

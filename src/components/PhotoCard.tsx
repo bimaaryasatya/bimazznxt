@@ -52,9 +52,10 @@ export function PhotoCard({ photo, onSelect, index }: PhotoCardProps) {
 
       {/* Full-Bleed Photograph Canvas */}
       <Image
-        src={photo.imageUrl}
+        src={photo.thumbnailUrl || photo.imageUrl}
         alt={photo.title}
         fill
+        quality={75}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         loading="lazy"
         onLoad={() => setImageLoaded(true)}
