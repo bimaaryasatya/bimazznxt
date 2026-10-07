@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Toaster } from "sonner";
 import { AppProvider } from "@/context/AppContext";
 import { TabTitleSync } from "@/components/TabTitleSync";
+import { ImageProtection } from "@/components/ImageProtection";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -88,6 +89,7 @@ export default async function RootLayout({
       </head>
       <body className="bg-canvas text-zinc-100 antialiased selection:bg-indigo-500/30 selection:text-white transition-colors duration-200">
         <AppProvider>
+          <ImageProtection />
           <TabTitleSync />
           <AmbientAurora />
           <Navbar initialBrand={siteContent?.brand} />

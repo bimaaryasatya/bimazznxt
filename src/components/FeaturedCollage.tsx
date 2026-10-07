@@ -115,11 +115,12 @@ export function FeaturedCollage({
         onHoverEnd={() => setHoveredIdx(null)}
         onClick={() => onSelectPhoto(photo)}
         style={{ zIndex: isHovered ? 30 : 10 }}
-        className={`group relative rounded-2xl overflow-hidden cursor-pointer border bg-black shadow-2xl transition-colors duration-300 ${
+        className={`group relative rounded-2xl overflow-hidden cursor-pointer border bg-black shadow-2xl transition-colors duration-300 select-none ${
           isHovered
             ? "border-white/40 ring-1 ring-white/20 shadow-indigo-500/10"
             : "border-white/10 hover:border-white/25"
         } ${containerClass}`}
+        onContextMenu={(e) => e.preventDefault()}
       >
         {/* Full-Bleed Photograph Canvas */}
         <Image
@@ -128,12 +129,13 @@ export function FeaturedCollage({
           fill
           priority={isHero}
           quality={80}
+          draggable={false}
           sizes={
             isHero
               ? "(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 60vw"
               : "(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 30vw"
           }
-          className="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-105"
+          className="object-cover w-full h-full pointer-events-none select-none transition-transform duration-700 ease-out group-hover:scale-105"
         />
 
         {/* Hover Inspect Expand Center Trigger */}
@@ -191,7 +193,7 @@ export function FeaturedCollage({
     <motion.section
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6 }}
       className="relative py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
     >
@@ -199,7 +201,7 @@ export function FeaturedCollage({
       <motion.div
         initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
         whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        viewport={{ once: true, margin: "-40px" }}
+        viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
         className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8"
       >

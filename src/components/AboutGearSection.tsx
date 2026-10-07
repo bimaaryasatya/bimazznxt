@@ -32,7 +32,7 @@ export function AboutGearSection({
         id="about"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-80px" }}
+        viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.7 }}
         className="py-16 sm:py-24 relative border-t border-zinc-200 dark:border-white/[0.08]"
       >
@@ -42,7 +42,7 @@ export function AboutGearSection({
             <motion.div
               initial={{ opacity: 0, x: -30, filter: "blur(6px)" }}
               whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-              viewport={{ once: true, margin: "-60px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="lg:col-span-6 space-y-5"
             >
@@ -71,11 +71,14 @@ export function AboutGearSection({
             <motion.div
               initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
               whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              viewport={{ once: true, margin: "-60px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.8, delay: 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="lg:col-span-6"
             >
-              <div className="group relative w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-950 shadow-md dark:shadow-2xl">
+              <div 
+                className="group relative w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-950 shadow-md dark:shadow-2xl select-none"
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 {!bioImgLoaded && (
                   <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-900/80 shimmer-mask z-0" />
                 )}
@@ -85,9 +88,10 @@ export function AboutGearSection({
                   alt={content.title}
                   fill
                   quality={80}
+                  draggable={false}
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   onLoad={() => setBioImgLoaded(true)}
-                  className={`object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-105 ${
+                  className={`object-cover w-full h-full pointer-events-none select-none transition-transform duration-700 ease-out group-hover:scale-105 ${
                     bioImgLoaded ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -112,7 +116,7 @@ export function AboutGearSection({
         id="gear"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-80px" }}
+        viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.7 }}
         className="py-16 sm:py-24 relative border-t border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-zinc-950/30"
       >
@@ -122,11 +126,14 @@ export function AboutGearSection({
             <motion.div
               initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
               whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              viewport={{ once: true, margin: "-60px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="lg:col-span-5 order-2 lg:order-1"
             >
-              <div className="group relative w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-950 shadow-md dark:shadow-2xl">
+              <div 
+                className="group relative w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-950 shadow-md dark:shadow-2xl select-none"
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 {!gearImgLoaded && (
                   <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-900/80 shimmer-mask z-0" />
                 )}
@@ -136,9 +143,10 @@ export function AboutGearSection({
                   alt="Technical Optical Arsenal"
                   fill
                   quality={80}
+                  draggable={false}
                   sizes="(max-width: 1024px) 100vw, 45vw"
                   onLoad={() => setGearImgLoaded(true)}
-                  className={`object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-105 ${
+                  className={`object-cover w-full h-full pointer-events-none select-none transition-transform duration-700 ease-out group-hover:scale-105 ${
                     gearImgLoaded ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -159,7 +167,7 @@ export function AboutGearSection({
             <motion.div
               initial={{ opacity: 0, x: 28, filter: "blur(6px)" }}
               whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-              viewport={{ once: true, margin: "-60px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="lg:col-span-7 order-1 lg:order-2 space-y-6"
             >

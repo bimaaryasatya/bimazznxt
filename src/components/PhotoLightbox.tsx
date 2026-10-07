@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Photo } from "@/lib/types";
@@ -17,9 +17,11 @@ import {
   Layers,
   ChevronLeft,
   ChevronRight,
-  ExternalLink,
   ShieldCheck,
   Tag,
+  Lock,
+  Share2,
+  Check,
 } from "lucide-react";
 import { formatDate, formatDateTime } from "@/lib/utils";
 import { useApp } from "@/context/AppContext";
@@ -44,6 +46,29 @@ export function PhotoLightbox({
   onPrev,
 }: PhotoLightboxProps) {
   const { t } = useApp();
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = async () => {
+    if (!photo) return;
+    const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: photo.title,
+          text: `Railway Photograph by Bima Arya Satya: ${photo.title} (${photo.locomotive})`,
+          url: shareUrl,
+        });
+        return;
+      } catch {
+        // User aborted share or share failed
+      }
+    }
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!photo) return;
@@ -88,16 +113,44 @@ export function PhotoLightbox({
             </button>
 
             {/* Left/Center Viewport: High Resolution Photograph */}
-            <div className="relative flex-1 min-h-[350px] sm:min-h-[450px] lg:min-h-[620px] bg-black flex items-center justify-center p-2 sm:p-4 group">
-              <div className="relative w-full h-full max-h-[82vh] aspect-[16/10]">
+            <div
+              className="relative flex-1 min-h-[350px] sm:min-h-[450px] lg:min-h-[620px] bg-black flex items-center justify-center p-2 sm:p-4 group select-none photo-lightbox"
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              <div
+                className="relative w-full h-full max-h-[82vh] aspect-[16/10] select-none"
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <Image
                   src={photo.imageUrl}
                   alt={photo.title}
                   fill
                   priority
+                  draggable={false}
                   sizes="(max-width: 1024px) 100vw, 70vw"
-                  className="object-contain"
+                  className="object-contain pointer-events-none select-none"
                 />
+
+                {/* Anti-Save Transparent Security Shield Overlay */}
+                <div
+                  className="absolute inset-0 z-10 select-none cursor-default"
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                  onDragStart={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                  draggable={false}
+                  aria-hidden="true"
+                />
+
+                {/* Discrete Protective Watermark Badge */}
+                <div className="absolute bottom-3 right-3 z-20 pointer-events-none select-none flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-mono text-zinc-300 shadow-md">
+                  <Lock className="w-3 h-3 text-cyan-400" />
+                  <span>© BIMA ARCHIVE • PROTECTED</span>
+                </div>
               </div>
 
               {/* Prev / Next Floating Navigation */}
@@ -281,17 +334,33 @@ export function PhotoLightbox({
                 )}
               </div>
 
-              {/* Action Buttons Footer */}
+              {/* Action Buttons Footer: Protected Archive Status & Share */}
               <div className="pt-6 mt-6 border-t border-white/[0.08] flex items-center gap-3">
-                <a
-                  href={photo.imageUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 py-2.5 px-4 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] text-xs font-medium text-zinc-200 hover:text-white flex items-center justify-center gap-2 transition-all"
+                <div
+                  className="flex-1 py-2.5 px-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs font-mono text-zinc-400 flex items-center justify-center gap-2 select-none"
+                  title="Foto dilindungi hak cipta dan terkunci dari pengunduhan langsung"
                 >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  View Original Asset
-                </a>
+                  <Lock className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Protected Master File</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleShare}
+                  className="py-2.5 px-4 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-xs font-medium text-cyan-300 hover:text-cyan-200 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  title="Share Portfolio Link"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Share2 className="w-3.5 h-3.5" />
+                      <span>Share</span>
+                    </>
+                  )}
+                </button>
               </div>
             </motion.div>
           </motion.div>

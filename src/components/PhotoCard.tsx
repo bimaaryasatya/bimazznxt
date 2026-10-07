@@ -36,7 +36,8 @@ export function PhotoCard({ photo, onSelect, index }: PhotoCardProps) {
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       onClick={() => onSelect(photo)}
-      className="group relative rounded-2xl overflow-hidden cursor-pointer border border-white/10 hover:border-white/30 bg-zinc-950 shadow-2xl transition-all duration-300 aspect-[16/11] flex flex-col justify-end"
+      className="group relative rounded-2xl overflow-hidden cursor-pointer border border-white/10 hover:border-white/30 bg-zinc-950 shadow-2xl transition-all duration-300 aspect-[16/11] flex flex-col justify-end select-none"
+      onContextMenu={(e) => e.preventDefault()}
     >
       {/* Outer Subtle Edge Glow */}
       <div
@@ -56,10 +57,11 @@ export function PhotoCard({ photo, onSelect, index }: PhotoCardProps) {
         alt={photo.title}
         fill
         quality={75}
+        draggable={false}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         loading="lazy"
         onLoad={() => setImageLoaded(true)}
-        className={`object-cover w-full h-full transition-all duration-700 ease-out group-hover:scale-105 ${
+        className={`object-cover w-full h-full pointer-events-none select-none transition-all duration-700 ease-out group-hover:scale-105 ${
           imageLoaded
             ? "filter-none opacity-100"
             : "filter blur-lg scale-105 opacity-0"
