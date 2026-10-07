@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { AboutContent, DEFAULT_SITE_CONTENT } from "@/lib/siteContent";
 import { useApp } from "@/context/AppContext";
 
@@ -26,15 +27,25 @@ export function AboutGearSection({
 
   return (
     <>
-      {/* SECTION 1: Photographer Bio & 6-Year Documentary Journey */}
-      <section
+      {/* SECTION 1: Photographer Bio & Documentary Journey */}
+      <motion.section
         id="about"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.7 }}
         className="py-16 sm:py-24 relative border-t border-zinc-200 dark:border-white/[0.08]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left: Bio & Journey Narrative */}
-            <div className="lg:col-span-6 space-y-5">
+            <motion.div
+              initial={{ opacity: 0, x: -30, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="lg:col-span-6 space-y-5"
+            >
               <h2 className="text-2xl sm:text-4xl font-bold text-zinc-900 dark:text-white tracking-tight leading-snug font-jakarta">
                 {content.title}
               </h2>
@@ -54,10 +65,16 @@ export function AboutGearSection({
                   {content.regionCoverage}
                 </span>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Right: Static Sample Photo (Editable in Curator) */}
-            <div className="lg:col-span-6">
+            {/* Right: Static Sample Photo */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.8, delay: 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="lg:col-span-6"
+            >
               <div className="group relative w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-950 shadow-md dark:shadow-2xl">
                 {!bioImgLoaded && (
                   <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-900/80 shimmer-mask z-0" />
@@ -67,6 +84,7 @@ export function AboutGearSection({
                   src={bioImage}
                   alt={content.title}
                   fill
+                  quality={80}
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   onLoad={() => setBioImgLoaded(true)}
                   className={`object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-105 ${
@@ -84,20 +102,30 @@ export function AboutGearSection({
                   </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* SECTION 2: Technical Arsenal (Photo on Left, Gear Lists on Right) */}
-      <section
+      {/* SECTION 2: Technical Arsenal */}
+      <motion.section
         id="gear"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.7 }}
         className="py-16 sm:py-24 relative border-t border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-zinc-950/30"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left: Gear / Setup Photograph (Editable in Curator) */}
-            <div className="lg:col-span-5 order-2 lg:order-1">
+            {/* Left: Gear / Setup Photograph */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="lg:col-span-5 order-2 lg:order-1"
+            >
               <div className="group relative w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-950 shadow-md dark:shadow-2xl">
                 {!gearImgLoaded && (
                   <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-900/80 shimmer-mask z-0" />
@@ -107,6 +135,7 @@ export function AboutGearSection({
                   src={gearImage}
                   alt="Technical Optical Arsenal"
                   fill
+                  quality={80}
                   sizes="(max-width: 1024px) 100vw, 45vw"
                   onLoad={() => setGearImgLoaded(true)}
                   className={`object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-105 ${
@@ -124,10 +153,16 @@ export function AboutGearSection({
                   </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right: Technical Arsenal Text & Inventory */}
-            <div className="lg:col-span-7 order-1 lg:order-2 space-y-6">
+            <motion.div
+              initial={{ opacity: 0, x: 28, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="lg:col-span-7 order-1 lg:order-2 space-y-6"
+            >
               <div>
                 <h3 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white tracking-tight leading-snug font-jakarta">
                   {content.gearTitle || "Technical Arsenal"}
@@ -139,10 +174,16 @@ export function AboutGearSection({
                 </p>
               </div>
 
-              {/* 3 Categories Grid */}
+              {/* 3 Categories Grid with Staggered Fade Up */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-6 pt-2">
                 {/* 1. Camera Bodies */}
-                <div className="space-y-3 p-4 rounded-xl bg-white dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.06] shadow-sm dark:shadow-none">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.15 }}
+                  className="space-y-3 p-4 rounded-xl bg-white dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.06] shadow-sm dark:shadow-none hover:border-cyan-500/30 transition-colors"
+                >
                   <h4 className="text-[11px] font-mono uppercase tracking-wider text-zinc-700 dark:text-zinc-300 font-semibold">
                     {t.about.primaryBodies}
                   </h4>
@@ -158,10 +199,16 @@ export function AboutGearSection({
                       </li>
                     ))}
                   </ul>
-                </div>
+                </motion.div>
 
                 {/* 2. Master Optics */}
-                <div className="space-y-3 p-4 rounded-xl bg-white dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.06] shadow-sm dark:shadow-none">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.25 }}
+                  className="space-y-3 p-4 rounded-xl bg-white dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.06] shadow-sm dark:shadow-none hover:border-cyan-500/30 transition-colors"
+                >
                   <h4 className="text-[11px] font-mono uppercase tracking-wider text-zinc-700 dark:text-zinc-300 font-semibold">
                     {t.about.masterOptics}
                   </h4>
@@ -177,10 +224,16 @@ export function AboutGearSection({
                       </li>
                     ))}
                   </ul>
-                </div>
+                </motion.div>
 
                 {/* 3. Field Gear */}
-                <div className="space-y-3 p-4 rounded-xl bg-white dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.06] shadow-sm dark:shadow-none">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.35 }}
+                  className="space-y-3 p-4 rounded-xl bg-white dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.06] shadow-sm dark:shadow-none hover:border-cyan-500/30 transition-colors"
+                >
                   <h4 className="text-[11px] font-mono uppercase tracking-wider text-zinc-700 dark:text-zinc-300 font-semibold">
                     {t.about.fieldEssentials}
                   </h4>
@@ -196,12 +249,12 @@ export function AboutGearSection({
                       </li>
                     ))}
                   </ul>
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
     </>
   );
 }

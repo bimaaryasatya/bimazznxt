@@ -246,11 +246,11 @@ export function HomePageClient({
         {showFullArchive && (
           <motion.section
             id="archive"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="relative pt-6 pb-12 border-t border-white/[0.08]"
+            initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -20, filter: "blur(8px)" }}
+            transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="relative pt-6 pb-12 border-t border-zinc-200 dark:border-white/[0.08]"
           >
             {/* Interactive Filter & Prompt Bar */}
             <FilterPromptBar

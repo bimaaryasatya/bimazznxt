@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { ArrowUp } from "lucide-react";
+import { motion } from "framer-motion";
 import { FooterContent, DEFAULT_SITE_CONTENT } from "@/lib/siteContent";
 
 interface FooterProps {
@@ -46,7 +47,13 @@ export function Footer({ initialContent }: FooterProps) {
   };
 
   return (
-    <footer className="relative z-10 border-t border-zinc-200 dark:border-white/[0.08] bg-white/95 dark:bg-[#030303]/90 backdrop-blur-md pt-16 pb-12 mt-24">
+    <motion.footer
+      initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+      className="relative z-10 border-t border-zinc-200 dark:border-white/[0.08] bg-white/95 dark:bg-[#030303]/90 backdrop-blur-md pt-16 pb-12 mt-24"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 mb-12">
           {/* Brand Info (Text only, no icon, badges removed) */}
@@ -91,6 +98,6 @@ export function Footer({ initialContent }: FooterProps) {
           </div>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }

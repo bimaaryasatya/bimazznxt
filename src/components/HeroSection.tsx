@@ -1,32 +1,30 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 
-const springPhysics = {
-  type: "spring" as const,
-  damping: 25,
-  stiffness: 200,
-};
-
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.02,
+      staggerChildren: 0.12,
+      delayChildren: 0.05,
     },
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
   visible: {
     opacity: 1,
     y: 0,
-    transition: springPhysics,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+      ease: [0.21, 0.47, 0.32, 0.98],
+    },
   },
 };
 

@@ -187,10 +187,22 @@ export function FeaturedCollage({
     );
   };
 
-  return (
-    <section className="relative py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Vercel SaaS Header: Clean Bold Typography */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+    return (
+    <motion.section
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.6 }}
+      className="relative py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
+      {/* Vercel SaaS Header: Clean Bold Typography with Scroll Reveal */}
+      <motion.div
+        initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
+        className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8"
+      >
         <div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white font-jakarta">
             {content?.title || t.collage.title}
@@ -219,49 +231,79 @@ export function FeaturedCollage({
             }`}
           />
         </button>
-      </div>
+      </motion.div>
 
-      {/* Asymmetric 4-Photo Bento Grid */}
+      {/* Asymmetric 4-Photo Bento Grid with Cascading Reveal */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
         {/* Left Column (Hero Card): 7 Cols, Full Height */}
         {collagePhotos[0] && (
-          <div className="lg:col-span-7 h-[360px] sm:h-[480px] lg:h-[580px]">
+          <motion.div
+            initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="lg:col-span-7 h-[360px] sm:h-[480px] lg:h-[580px]"
+          >
             {renderCollageCard(
               collagePhotos[0],
               0,
               "w-full h-full",
               true
             )}
-          </div>
+          </motion.div>
         )}
 
         {/* Right Column (3 Cards): 5 Cols, Stacked Vertically */}
         <div className="lg:col-span-5 flex flex-col gap-4 sm:gap-5 h-auto lg:h-[580px]">
           {/* Top Right Card: Wide 1 Card */}
           {collagePhotos[1] && (
-            <div className="h-[220px] sm:h-[260px] lg:h-[275px]">
+            <motion.div
+              initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.8, delay: 0.12, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="h-[220px] sm:h-[260px] lg:h-[275px]"
+            >
               {renderCollageCard(collagePhotos[1], 1, "w-full h-full")}
-            </div>
+            </motion.div>
           )}
 
           {/* Bottom Right Cards: 2 Side-by-Side Cards */}
           <div className="grid grid-cols-2 gap-4 sm:gap-5 flex-1 min-h-[190px] sm:min-h-[220px] lg:min-h-[285px]">
             {collagePhotos[2] && (
-              <div className="h-full">
+              <motion.div
+                initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.8, delay: 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
+                className="h-full"
+              >
                 {renderCollageCard(collagePhotos[2], 2, "w-full h-full")}
-              </div>
+              </motion.div>
             )}
             {collagePhotos[3] && (
-              <div className="h-full">
+              <motion.div
+                initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.8, delay: 0.32, ease: [0.21, 0.47, 0.32, 0.98] }}
+                className="h-full"
+              >
                 {renderCollageCard(collagePhotos[3], 3, "w-full h-full")}
-              </div>
+              </motion.div>
             )}
           </div>
         </div>
       </div>
 
       {/* Prominent Vercel-Style Interactive CTA Button */}
-      <div className="mt-10 sm:mt-12 flex justify-center">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.6, delay: 0.25 }}
+        className="mt-10 sm:mt-12 flex justify-center"
+      >
         <button
           onClick={onToggleFullArchive}
           className="group inline-flex items-center gap-3 px-6 sm:px-8 py-3.5 rounded-full bg-zinc-900 text-white hover:bg-black dark:bg-white/[0.05] dark:hover:bg-white/[0.12] dark:text-white border border-zinc-200 dark:border-white/10 dark:hover:border-white/30 font-medium text-xs sm:text-sm transition-all shadow-md dark:shadow-2xl backdrop-blur-md hover:scale-[1.02]"
@@ -280,7 +322,7 @@ export function FeaturedCollage({
             }`}
           />
         </button>
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 }
