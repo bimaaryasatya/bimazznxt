@@ -124,9 +124,6 @@ export function CreatorProfileSection({
                   imgLoaded ? "opacity-100" : "opacity-0"
                 }`}
               />
-
-              {/* Gradient halus di dasar foto */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
             </div>
           </div>
         </div>

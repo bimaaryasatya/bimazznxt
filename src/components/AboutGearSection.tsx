@@ -59,15 +59,6 @@ export function AboutGearSection({
                   }`}
                 />
 
-                {/* Subtle Edge Glow & Bottom Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
-
-                {/* Corner Label */}
-                <div className="absolute bottom-4 left-4 z-10 pointer-events-none">
-                  <span className="px-3 py-1 rounded-full text-[11px] font-mono font-medium bg-black/60 backdrop-blur-md border border-white/15 text-zinc-200">
-                    Optical Rig & Field Arsenal
-                  </span>
-                </div>
               </div>
             </motion.div>
 
