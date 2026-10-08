@@ -93,7 +93,7 @@ export default async function RootLayout({
           <TabTitleSync />
           <AmbientAurora />
           <Navbar initialBrand={siteContent?.brand} />
-          <main className="relative z-10 min-h-screen pt-20">{children}</main>
+          <main className="relative min-h-screen pt-20">{children}</main>
           <Footer />
           <Toaster
             position="bottom-right"

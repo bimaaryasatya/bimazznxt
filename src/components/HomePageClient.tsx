@@ -206,25 +206,30 @@ export function HomePageClient({
   }, [photos]);
 
   // Lightbox Next & Prev logic
+  const activeLightboxPool = useMemo(() => {
+    if (showFullArchive && filteredPhotos.length > 0) {
+      return filteredPhotos;
+    }
+    return photos.length > 0 ? photos : showcasePhotos;
+  }, [showFullArchive, filteredPhotos, photos, showcasePhotos]);
+
   const handleNextPhoto = () => {
-    if (!selectedPhoto) return;
-    const pool = showFullArchive ? filteredPhotos : showcasePhotos;
-    const currentIndex = pool.findIndex((p) => p.id === selectedPhoto.id);
-    if (currentIndex < pool.length - 1) {
-      setSelectedPhoto(pool[currentIndex + 1]);
+    if (!selectedPhoto || activeLightboxPool.length === 0) return;
+    const currentIndex = activeLightboxPool.findIndex((p) => p.id === selectedPhoto.id);
+    if (currentIndex === -1 || currentIndex >= activeLightboxPool.length - 1) {
+      setSelectedPhoto(activeLightboxPool[0]);
     } else {
-      setSelectedPhoto(pool[0]);
+      setSelectedPhoto(activeLightboxPool[currentIndex + 1]);
     }
   };
 
   const handlePrevPhoto = () => {
-    if (!selectedPhoto) return;
-    const pool = showFullArchive ? filteredPhotos : showcasePhotos;
-    const currentIndex = pool.findIndex((p) => p.id === selectedPhoto.id);
-    if (currentIndex > 0) {
-      setSelectedPhoto(pool[currentIndex - 1]);
+    if (!selectedPhoto || activeLightboxPool.length === 0) return;
+    const currentIndex = activeLightboxPool.findIndex((p) => p.id === selectedPhoto.id);
+    if (currentIndex <= 0) {
+      setSelectedPhoto(activeLightboxPool[activeLightboxPool.length - 1]);
     } else {
-      setSelectedPhoto(pool[pool.length - 1]);
+      setSelectedPhoto(activeLightboxPool[currentIndex - 1]);
     }
   };
 
@@ -282,8 +287,8 @@ export function HomePageClient({
       <PhotoLightbox
         photo={selectedPhoto}
         onClose={() => setSelectedPhoto(null)}
-        onNext={photos.length > 1 ? handleNextPhoto : undefined}
-        onPrev={photos.length > 1 ? handlePrevPhoto : undefined}
+        onNext={activeLightboxPool.length > 1 ? handleNextPhoto : undefined}
+        onPrev={activeLightboxPool.length > 1 ? handlePrevPhoto : undefined}
       />
     </div>
   );
