@@ -6,13 +6,27 @@ export interface HeroContent {
   ctaSecondaryText: string;
 }
 
+export interface ProfileStat {
+  label: string;
+  value: string;
+}
+
 export interface AboutContent {
   title: string;
   bio: string;
   photographerName: string;
   photographerRole: string;
   regionCoverage: string;
+  locationBase?: string;
+  experienceYears?: string;
+  statement?: string;
+  avatarUrl?: string;
   bioImageUrl?: string;
+  socialInstagram?: string;
+  socialYoutube?: string;
+  socialEmail?: string;
+  socialX?: string;
+  stats?: ProfileStat[];
   gearTitle?: string;
   gearSubtitle?: string;
   gearImageUrl?: string;
@@ -74,12 +88,25 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     subtitle: "Curated master railway documentation from six years of mainline trackside chronicles.",
   },
   about: {
-    title: "Six Years on Java’s Mainlines.",
-    bio: "A documentary chronicle dedicated to the heavy diesel-electric motive power, high-mountain viaducts, and curved superelevations across Java Island. Trackside since late 2019 with strict optical discipline and direct EXIF sensor preservation.",
-    photographerName: "Bima",
-    photographerRole: "Documentary Photographer",
-    regionCoverage: "Daop 1 — Daop 9",
+    title: "Profil Pengkarya & Rekam Jejak Visual",
+    bio: "Berawal dari kekaguman masa kecil terhadap deru mesin lokomotif di era PT. KA hingga modernisasi KAI masa kini. Selama lebih dari enam tahun berkelana menyusuri jalur rel di Pulau Jawa, mendokumentasikan lokomotif diesel-elektrik, jembatan tinggi peninggalan sejarah, lengkung tajam pegunungan, serta denyut kehidupan di sekitar jalur baja. Mengedepankan disiplin pencahayaan alami, ketepatan sudut pandang teknis, dan integritas data sensor EXIF murni tanpa manipulasi artifisial.",
+    photographerName: "Bima Arya Satya",
+    photographerRole: "Railway Documentary Photographer & Archivist",
+    regionCoverage: "Daop 1 Jakarta — Daop 9 Jember",
+    locationBase: "Daop 5 Purwokerto, Jawa Tengah",
+    experienceYears: "6+ Tahun Trackside (Sejak 2019)",
+    statement: "Menangkap denyut nadi roda baja bukan sekadar memotret lokomotif melintas, melainkan mengabadikan warisan peradaban dan denyut peradaban yang terus bergerak melintasi ruang dan waktu.",
+    avatarUrl: "",
     bioImageUrl: "https://images.unsplash.com/photo-1515165562839-978bbcf18277?q=80&w=1200&auto=format&fit=crop",
+    socialInstagram: "https://instagram.com/bimazznxt",
+    socialYoutube: "https://youtube.com/@bimazznxt",
+    socialEmail: "bimaaryasatya@gmail.com",
+    socialX: "",
+    stats: [
+      { label: "Pengalaman Rel", value: "6+ Tahun" },
+      { label: "Cakupan Wilayah", value: "9 Daop Jawa" },
+      { label: "Koleksi Terkurasi", value: "50+ Seri KA" },
+    ],
     gearTitle: "Technical Arsenal",
     gearSubtitle: "High-speed shutter bodies, telephoto glass, and rugged trackside stabilizers built for high-tempo mainline documentary work.",
     gearImageUrl: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1200&auto=format&fit=crop",

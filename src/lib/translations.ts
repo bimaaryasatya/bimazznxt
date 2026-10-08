@@ -4,7 +4,8 @@ export const translations = {
   en: {
     nav: {
       archive: "Archive",
-      optics: "Optics & Bio",
+      profile: "Profile",
+      optics: "Gear & Optics",
       langLabel: "English",
       themeDark: "Dark",
       themeLight: "Light",
@@ -28,10 +29,14 @@ export const translations = {
       resetFilters: "Reset All Filters",
     },
     about: {
+      badge: "The Photographer",
       label: "Optics & Documentary Journey",
       primaryBodies: "Primary Camera Bodies",
       masterOptics: "Master Telephoto & Primes",
       fieldEssentials: "Field Equipment & Support",
+      statementTitle: "Visual Philosophy & Statement",
+      connectWith: "Connect & Inquiries",
+      activeBadge: "Active Trackside",
     },
     lightbox: {
       close: "Close Esc",
@@ -61,7 +66,8 @@ export const translations = {
   id: {
     nav: {
       archive: "Arsip",
-      optics: "Optik & Bio",
+      profile: "Profil",
+      optics: "Gear & Optik",
       langLabel: "Bahasa Indonesia",
       themeDark: "Gelap",
       themeLight: "Terang",
@@ -85,10 +91,14 @@ export const translations = {
       resetFilters: "Atur Ulang Semua Filter",
     },
     about: {
+      badge: "Profil Pengkarya",
       label: "Optik & Perjalanan Dokumenter",
       primaryBodies: "Bodi Kamera Utama",
       masterOptics: "Optik Telefoto & Prime",
       fieldEssentials: "Perlengkapan Lapangan",
+      statementTitle: "Filosofi & Pernyataan Visual",
+      connectWith: "Kontak & Tautan Media",
+      activeBadge: "Aktif di Tepi Rel",
     },
     lightbox: {
       close: "Tutup Esc",

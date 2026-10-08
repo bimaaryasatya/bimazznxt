@@ -12,6 +12,7 @@ import {
   Camera,
   ChevronRight,
   Lock,
+  User,
 } from "lucide-react";
 import { BrandContent, DEFAULT_SITE_CONTENT } from "@/lib/siteContent";
 import { useApp } from "@/context/AppContext";
@@ -130,6 +131,12 @@ export function Navbar({ initialBrand }: NavbarProps) {
                 {t.nav.archive}
               </Link>
               <Link
+                href="/#about"
+                className="text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+              >
+                {t.nav.profile}
+              </Link>
+              <Link
                 href="/#gear"
                 className="text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
               >
@@ -195,6 +202,18 @@ export function Navbar({ initialBrand }: NavbarProps) {
               <div className="flex items-center gap-2.5">
                 <Train className="w-4 h-4 text-cyan-500" />
                 <span>{t.nav.archive}</span>
+              </div>
+              <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+            </Link>
+
+            <Link
+              href="/#about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-between p-2 rounded-xl text-xs font-medium text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors"
+            >
+              <div className="flex items-center gap-2.5">
+                <User className="w-4 h-4 text-cyan-500" />
+                <span>{t.nav.profile}</span>
               </div>
               <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
             </Link>

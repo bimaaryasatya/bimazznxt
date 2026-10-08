@@ -32,6 +32,14 @@ import {
   Globe,
   Sun,
   Moon,
+  User,
+  Mail,
+  Instagram,
+  Youtube,
+  Quote,
+  MapPin,
+  Clock,
+  Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useApp } from "@/context/AppContext";
@@ -40,8 +48,8 @@ export default function AdminDashboardPage() {
   const router = useRouter();
   const { theme, toggleTheme } = useApp();
 
-  // Drawer Tab State: "galeri" | "kategori" | "section"
-  const [activeDrawerTab, setActiveDrawerTab] = useState<"galeri" | "kategori" | "section">("galeri");
+  // Drawer Tab State: "galeri" | "kategori" | "profil" | "section"
+  const [activeDrawerTab, setActiveDrawerTab] = useState<"galeri" | "kategori" | "profil" | "section">("galeri");
   const [gallerySubTab, setGallerySubTab] = useState<"upload" | "manage">("upload");
 
   // Data State
@@ -486,7 +494,25 @@ export default function AdminDashboardPage() {
                 </span>
               </button>
 
-              {/* Tab 3: Section Sendiri */}
+              {/* Tab 3: Profil Pengkarya */}
+              <button
+                onClick={() => setActiveDrawerTab("profil")}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                  activeDrawerTab === "profil"
+                    ? "bg-zinc-900 text-white dark:bg-white dark:text-black font-semibold shadow-md"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-white/[0.04]"
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <User className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
+                  <span>Profil Pengkarya</span>
+                </div>
+                <span className="text-[10px] font-mono opacity-70">
+                  Bio &amp; Sosmed
+                </span>
+              </button>
+
+              {/* Tab 4: Section Sendiri */}
               <button
                 onClick={() => setActiveDrawerTab("section")}
                 className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
@@ -500,7 +526,7 @@ export default function AdminDashboardPage() {
                   <span>Page Sections CMS</span>
                 </div>
                 <span className="text-[10px] font-mono opacity-70">
-                  Hero/Bio/Gear
+                  Hero/Gear/Brand
                 </span>
               </button>
             </nav>
@@ -747,7 +773,378 @@ export default function AdminDashboardPage() {
             </div>
           )}
 
-          {/* TAB 3: SECTION SENDIRI (PAGE SECTIONS CMS) */}
+          {/* TAB 3: PROFIL PENGKARYA (CREATOR BIO & PROFILE) */}
+          {activeDrawerTab === "profil" && (
+            <div className="space-y-8">
+              <div className="sticky top-[57px] bg-slate-50/95 dark:bg-black/90 backdrop-blur-md z-30 pb-4 pt-1 border-b border-zinc-200 dark:border-white/[0.08] flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h2 className="text-lg font-bold text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
+                    <User className="w-5 h-5 text-cyan-500" />
+                    <span>Profil &amp; Bio Pengkarya</span>
+                  </h2>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                    Kelola foto profil, identitas, biografi lengkap, kutipan filosofis, dan media sosial pengkarya.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => handleSaveSiteContent(siteContent, "Profil pengkarya berhasil disimpan & diperbarui!")}
+                  disabled={isSavingContent}
+                  className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition-all active:scale-95 cursor-pointer"
+                >
+                  <Save className="w-4 h-4" />
+                  {isSavingContent ? "Menyimpan..." : "Simpan Profil Pengkarya"}
+                </button>
+              </div>
+
+              {/* 1. Foto Profil & Visual Pengkarya */}
+              <div className="admin-card border border-zinc-200 dark:border-white/[0.08] rounded-2xl p-6 bg-white dark:bg-white/[0.01] shadow-sm dark:shadow-none space-y-5">
+                <h3 className="text-xs font-bold text-zinc-900 dark:text-white font-mono uppercase tracking-wider flex items-center gap-2">
+                  <Camera className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
+                  Visual &amp; Foto Pengkarya
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <AdminImageUploader
+                      label="Foto Avatar / Profil Pengkarya"
+                      helperText="Foto wajah / potret diri pengkarya (rasio kotak 1:1 disarankan)"
+                      value={siteContent.about.avatarUrl || ""}
+                      onChange={(url) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, avatarUrl: url },
+                        })
+                      }
+                      aspectRatio="square"
+                    />
+                  </div>
+
+                  <div>
+                    <AdminImageUploader
+                      label="Foto Aksi Lapangan / Trackside Action"
+                      helperText="Foto suasana hunting rel atau karya pameran (rasio horizontal 16:9)"
+                      value={siteContent.about.bioImageUrl || ""}
+                      onChange={(url) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, bioImageUrl: url },
+                        })
+                      }
+                      aspectRatio="wide"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 2. Identitas Personal & Rekam Jejak */}
+              <div className="admin-card border border-zinc-200 dark:border-white/[0.08] rounded-2xl p-6 bg-white dark:bg-white/[0.01] shadow-sm dark:shadow-none space-y-5">
+                <h3 className="text-xs font-bold text-zinc-900 dark:text-white font-mono uppercase tracking-wider flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
+                  Identitas &amp; Pengalaman
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                  <div>
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium">Nama Lengkap Pengkarya</label>
+                    <input
+                      type="text"
+                      value={siteContent.about.photographerName}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, photographerName: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. Bima Arya Satya"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium">Profesi / Peran Visual</label>
+                    <input
+                      type="text"
+                      value={siteContent.about.photographerRole}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, photographerRole: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. Railway Documentary Photographer & Archivist"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium">Lokasi / Home Base</label>
+                    <input
+                      type="text"
+                      value={siteContent.about.locationBase || ""}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, locationBase: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. Daop 5 Purwokerto, Jawa Tengah"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium">Pengalaman / Jam Terbang</label>
+                    <input
+                      type="text"
+                      value={siteContent.about.experienceYears || ""}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, experienceYears: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. 6+ Tahun Trackside (Sejak 2019)"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium">Cakupan Wilayah / Daop</label>
+                    <input
+                      type="text"
+                      value={siteContent.about.regionCoverage}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, regionCoverage: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. Daop 1 Jakarta — Daop 9 Jember"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 3. Narasi Biografi & Filosofi */}
+              <div className="admin-card border border-zinc-200 dark:border-white/[0.08] rounded-2xl p-6 bg-white dark:bg-white/[0.01] shadow-sm dark:shadow-none space-y-5">
+                <h3 className="text-xs font-bold text-zinc-900 dark:text-white font-mono uppercase tracking-wider flex items-center gap-2">
+                  <Quote className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
+                  Narasi Biografi &amp; Filosofi Visual
+                </h3>
+
+                <div className="space-y-4 text-xs">
+                  <div>
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium">Judul Seksi Profil (Heading)</label>
+                    <input
+                      type="text"
+                      value={siteContent.about.title}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, title: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. Profil Pengkarya & Rekam Jejak Visual"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium">Biografi Lengkap Pengkarya</label>
+                    <textarea
+                      rows={5}
+                      value={siteContent.about.bio}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, bio: e.target.value },
+                        })
+                      }
+                      placeholder="Tuliskan latar belakang, ketertarikan, dan komitmen dokumentasi fotografi Anda..."
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans leading-relaxed"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium">Pernyataan Pengkarya / Kutipan Filosofis (Artist Statement)</label>
+                    <textarea
+                      rows={3}
+                      value={siteContent.about.statement || ""}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, statement: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. Menangkap denyut nadi roda baja bukan sekadar memotret lokomotif..."
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans leading-relaxed"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 4. Media Sosial & Kontak */}
+              <div className="admin-card border border-zinc-200 dark:border-white/[0.08] rounded-2xl p-6 bg-white dark:bg-white/[0.01] shadow-sm dark:shadow-none space-y-5">
+                <h3 className="text-xs font-bold text-zinc-900 dark:text-white font-mono uppercase tracking-wider flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
+                  Media Sosial &amp; Kontak Resmi
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                  <div>
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium flex items-center gap-1.5">
+                      <Instagram className="w-3.5 h-3.5 text-pink-500" />
+                      <span>Instagram URL / Username</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={siteContent.about.socialInstagram || ""}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, socialInstagram: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. https://instagram.com/bimazznxt"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium flex items-center gap-1.5">
+                      <Youtube className="w-3.5 h-3.5 text-red-500" />
+                      <span>YouTube Channel URL</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={siteContent.about.socialYoutube || ""}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, socialYoutube: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. https://youtube.com/@bimazznxt"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium flex items-center gap-1.5">
+                      <Mail className="w-3.5 h-3.5 text-cyan-500" />
+                      <span>Email Kontak</span>
+                    </label>
+                    <input
+                      type="email"
+                      value={siteContent.about.socialEmail || ""}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, socialEmail: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. bimaaryasatya@gmail.com"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-zinc-600 dark:text-zinc-400 block mb-1.5 font-medium">
+                      X (Twitter) / Portofolio Lain
+                    </label>
+                    <input
+                      type="text"
+                      value={siteContent.about.socialX || ""}
+                      onChange={(e) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, socialX: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. https://x.com/bimazznxt"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 font-sans"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 5. Statistik Ringkas Profil */}
+              <div className="admin-card border border-zinc-200 dark:border-white/[0.08] rounded-2xl p-6 bg-white dark:bg-white/[0.01] shadow-sm dark:shadow-none space-y-4">
+                <h3 className="text-xs font-bold text-zinc-900 dark:text-white font-mono uppercase tracking-wider flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
+                  Statistik Ringkas Profil (3 Kartu Sorotan)
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                  {(siteContent.about.stats || [
+                    { label: "Pengalaman Rel", value: "6+ Tahun" },
+                    { label: "Cakupan Wilayah", value: "9 Daop Jawa" },
+                    { label: "Koleksi Terkurasi", value: "50+ Seri KA" },
+                  ]).map((stat, idx) => (
+                    <div key={idx} className="p-3.5 rounded-xl bg-zinc-50 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/10 space-y-2">
+                      <span className="text-[10px] font-mono text-zinc-500 uppercase font-semibold">Statistik #{idx + 1}</span>
+                      <div>
+                        <label className="text-[11px] text-zinc-500 block mb-1">Angka / Nilai</label>
+                        <input
+                          type="text"
+                          value={stat.value}
+                          onChange={(e) => {
+                            const newStats = [...(siteContent.about.stats || [
+                              { label: "Pengalaman Rel", value: "6+ Tahun" },
+                              { label: "Cakupan Wilayah", value: "9 Daop Jawa" },
+                              { label: "Koleksi Terkurasi", value: "50+ Seri KA" },
+                            ])];
+                            newStats[idx] = { ...newStats[idx], value: e.target.value };
+                            setSiteContent({
+                              ...siteContent,
+                              about: { ...siteContent.about, stats: newStats },
+                            });
+                          }}
+                          className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white font-mono font-bold text-xs"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[11px] text-zinc-500 block mb-1">Keterangan Label</label>
+                        <input
+                          type="text"
+                          value={stat.label}
+                          onChange={(e) => {
+                            const newStats = [...(siteContent.about.stats || [
+                              { label: "Pengalaman Rel", value: "6+ Tahun" },
+                              { label: "Cakupan Wilayah", value: "9 Daop Jawa" },
+                              { label: "Koleksi Terkurasi", value: "50+ Seri KA" },
+                            ])];
+                            newStats[idx] = { ...newStats[idx], label: e.target.value };
+                            setSiteContent({
+                              ...siteContent,
+                              about: { ...siteContent.about, stats: newStats },
+                            });
+                          }}
+                          className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white text-xs"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bottom Save Action */}
+              <div className="pt-2 flex justify-end">
+                <button
+                  onClick={() => handleSaveSiteContent(siteContent, "Profil pengkarya berhasil disimpan & diperbarui!")}
+                  disabled={isSavingContent}
+                  className="px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition-all active:scale-95 cursor-pointer"
+                >
+                  <Save className="w-4 h-4" />
+                  {isSavingContent ? "Menyimpan..." : "Simpan Profil Pengkarya"}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: SECTION SENDIRI (PAGE SECTIONS CMS) */}
           {activeDrawerTab === "section" && (
             <div className="space-y-8">
               <div className="sticky top-[57px] bg-slate-50/95 dark:bg-black/90 backdrop-blur-md z-30 pb-4 pt-1 border-b border-zinc-200 dark:border-white/[0.08] flex items-center justify-between flex-wrap gap-4">
@@ -1096,10 +1493,26 @@ export default function AdminDashboardPage() {
                     />
                   </div>
 
-                  {/* Bio Static Sample Photo with File Uploader */}
-                  <div className="sm:col-span-2 pt-2">
+                  {/* Avatar & Bio Image Uploaders */}
+                  <div>
                     <AdminImageUploader
-                      label="Foto Bio Profil"
+                      label="Foto Avatar Profil"
+                      helperText="Foto diri pengkarya (1:1)"
+                      value={siteContent.about.avatarUrl || ""}
+                      onChange={(url) =>
+                        setSiteContent({
+                          ...siteContent,
+                          about: { ...siteContent.about, avatarUrl: url },
+                        })
+                      }
+                      aspectRatio="square"
+                    />
+                  </div>
+
+                  <div>
+                    <AdminImageUploader
+                      label="Foto Aksi Lapangan"
+                      helperText="Foto hunting rel (16:9)"
                       value={siteContent.about.bioImageUrl || ""}
                       onChange={(url) =>
                         setSiteContent({
@@ -1107,7 +1520,7 @@ export default function AdminDashboardPage() {
                           about: { ...siteContent.about, bioImageUrl: url },
                         })
                       }
-                      aspectRatio="square"
+                      aspectRatio="wide"
                     />
                   </div>
                 </div>
