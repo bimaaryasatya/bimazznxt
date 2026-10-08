@@ -6,6 +6,7 @@ import { FeaturedCollage } from "@/components/FeaturedCollage";
 import { FilterPromptBar } from "@/components/FilterPromptBar";
 import { PhotoGrid } from "@/components/PhotoGrid";
 import { PhotoLightbox } from "@/components/PhotoLightbox";
+import { CreatorProfileSection } from "@/components/CreatorProfileSection";
 import { AboutGearSection } from "@/components/AboutGearSection";
 import { Photo, FilterState } from "@/lib/types";
 import { INITIAL_PHOTOS } from "@/lib/data";
@@ -280,7 +281,10 @@ export function HomePageClient({
         )}
       </AnimatePresence>
 
-      {/* 4. Photographer Bio, 6-Year Journey & Gear */}
+      {/* 4. Creator Profile Section (Section Baru: Judul, Deskripsi, Sampingnya Gambar, Bawahnya Button Medsos) */}
+      <CreatorProfileSection content={siteContent.about} />
+
+      {/* 5. Gear & Technical Arsenal Section */}
       <AboutGearSection content={siteContent.about} />
 
       {/* 5. Photo Lightbox Modal with Technical EXIF Spec Drawer */}
