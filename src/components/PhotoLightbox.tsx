@@ -366,20 +366,12 @@ export function PhotoLightbox({
                 )}
               </div>
 
-              {/* Action Buttons Footer: Close & Share */}
-              <div className="pt-4 sm:pt-6 mt-4 sm:mt-6 border-t border-white/[0.08] flex items-center gap-2.5 sm:gap-3">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="flex-1 py-2 sm:py-2.5 px-3 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] active:scale-98 border border-white/[0.1] text-xs font-mono text-zinc-300 hover:text-white flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                >
-                  <X className="w-3.5 h-3.5" />
-                  <span>{language === "en" ? "Close" : "Tutup"}</span>
-                </button>
+              {/* Action Buttons Footer: Share */}
+              <div className="pt-4 sm:pt-6 mt-4 sm:mt-6 border-t border-white/[0.08] flex items-center">
                 <button
                   type="button"
                   onClick={handleShare}
-                  className="flex-1 sm:flex-initial py-2 sm:py-2.5 px-4 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 active:scale-98 border border-cyan-500/30 text-xs font-medium text-cyan-300 hover:text-cyan-200 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  className="w-full py-2.5 px-4 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 active:scale-98 border border-cyan-500/30 text-xs font-medium text-cyan-300 hover:text-cyan-200 flex items-center justify-center gap-2 transition-all cursor-pointer"
                   title="Share Portfolio Link"
                 >
                   {copied ? (
