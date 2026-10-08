@@ -49,7 +49,7 @@ export function FeaturedCollage({
 
     if (hoveredIdx === idx) {
       return {
-        scale: 1.025,
+        scale: 1.02,
         opacity: 1,
         x: 0,
         y: 0,
@@ -61,29 +61,24 @@ export function FeaturedCollage({
     let y = 0;
 
     if (hoveredIdx === 0) {
-      // Hovering left large card -> push right cards to the right
-      x = 8;
+      x = 6;
     } else {
-      // Hovering any right card -> push left card to the left
-      if (idx === 0) x = -8;
+      if (idx === 0) x = -6;
 
       if (hoveredIdx === 1) {
-        // Top right hovered -> push bottom cards down
-        if (idx === 2 || idx === 3) y = 8;
+        if (idx === 2 || idx === 3) y = 6;
       } else if (hoveredIdx === 2) {
-        // Bottom left hovered -> push top card up, sibling card right
-        if (idx === 1) y = -8;
-        if (idx === 3) x = 8;
+        if (idx === 1) y = -6;
+        if (idx === 3) x = 6;
       } else if (hoveredIdx === 3) {
-        // Bottom right hovered -> push top card up, sibling card left
-        if (idx === 1) y = -8;
-        if (idx === 2) x = -8;
+        if (idx === 1) y = -6;
+        if (idx === 2) x = -6;
       }
     }
 
     return {
-      scale: 0.97,
-      opacity: 0.42,
+      scale: 0.98,
+      opacity: 0.5,
       x,
       y,
     };
@@ -104,15 +99,15 @@ export function FeaturedCollage({
         animate={motionProps}
         transition={{
           type: "spring",
-          stiffness: 320,
-          damping: 26,
-          mass: 0.8,
+          stiffness: 340,
+          damping: 28,
+          mass: 0.7,
         }}
-        onHoverStart={() => setHoveredIdx(idx)}
-        onHoverEnd={() => setHoveredIdx(null)}
+        onMouseEnter={() => setHoveredIdx(idx)}
+        onMouseLeave={() => setHoveredIdx(null)}
         onClick={() => onSelectPhoto(photo)}
         style={{ zIndex: isHovered ? 30 : 10 }}
-        className={`group relative rounded-2xl overflow-hidden cursor-pointer border bg-black shadow-2xl transition-colors duration-300 select-none ${
+        className={`group relative rounded-2xl overflow-hidden cursor-pointer border bg-black shadow-xl transition-colors duration-200 select-none [transform:translateZ(0)] ${
           isHovered
             ? "border-white/40 ring-1 ring-white/20 shadow-indigo-500/10"
             : "border-white/10 hover:border-white/25"
@@ -127,25 +122,24 @@ export function FeaturedCollage({
           priority={isHero}
           quality={80}
           draggable={false}
+          decoding="async"
           sizes={
             isHero
               ? "(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 60vw"
               : "(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 30vw"
           }
-          className="object-cover w-full h-full pointer-events-none select-none transition-transform duration-700 ease-out group-hover:scale-105"
+          className="object-cover w-full h-full pointer-events-none select-none transition-transform duration-500 ease-out group-hover:scale-105"
         />
 
-        {/* Hover Inspect Expand Center Trigger */}
-        <div
-          className={`absolute inset-0 flex items-center justify-center bg-black/25 backdrop-blur-[1.5px] z-20 transition-opacity duration-300 pointer-events-none ${
-            isHovered ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <div className="px-3.5 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/25 text-white text-xs font-medium flex items-center gap-1.5 shadow-2xl">
-            <Expand className="w-3.5 h-3.5" />
-            {t.collage.inspectSpecs}
+        {/* Hover Inspect Expand Center Trigger (Mounted strictly on hover to eliminate backdrop-filter during scroll) */}
+        {isHovered && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/35 z-20 pointer-events-none animate-in fade-in zoom-in-95 duration-150">
+            <div className="px-3.5 py-1.5 rounded-full bg-black/85 border border-white/25 text-white text-xs font-medium flex items-center gap-1.5 shadow-xl">
+              <Expand className="w-3.5 h-3.5" />
+              {t.collage.inspectSpecs}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Bottom Dark Gradient for High-Contrast Minimalist Text Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent z-15 pointer-events-none" />
@@ -186,22 +180,16 @@ export function FeaturedCollage({
     );
   };
 
-    return (
+  return (
     <motion.section
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.6 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "100px" }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="relative py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
     >
-      {/* Vercel SaaS Header: Clean Bold Typography with Scroll Reveal */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
-        className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8"
-      >
+      {/* Vercel SaaS Header: Clean Bold Typography */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
         <div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white font-jakarta">
             {content?.title || t.collage.title}
@@ -230,82 +218,52 @@ export function FeaturedCollage({
             }`}
           />
         </button>
-      </motion.div>
+      </div>
 
-      {/* Asymmetric 4-Photo Bento Grid with Cascading Reveal */}
+      {/* Asymmetric 4-Photo Bento Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
         {/* Left Column (Hero Card): 7 Cols, Full Height */}
         {collagePhotos[0] && (
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="lg:col-span-7 h-[360px] sm:h-[480px] lg:h-[580px]"
-          >
+          <div className="lg:col-span-7 h-[360px] sm:h-[480px] lg:h-[580px]">
             {renderCollageCard(
               collagePhotos[0],
               0,
               "w-full h-full",
               true
             )}
-          </motion.div>
+          </div>
         )}
 
         {/* Right Column (3 Cards): 5 Cols, Stacked Vertically */}
         <div className="lg:col-span-5 flex flex-col gap-4 sm:gap-5 h-auto lg:h-[580px]">
           {/* Top Right Card: Wide 1 Card */}
           {collagePhotos[1] && (
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.7, delay: 0.08, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="h-[220px] sm:h-[260px] lg:h-[275px]"
-            >
+            <div className="h-[220px] sm:h-[260px] lg:h-[275px]">
               {renderCollageCard(collagePhotos[1], 1, "w-full h-full")}
-            </motion.div>
+            </div>
           )}
 
           {/* Bottom Right Cards: 2 Side-by-Side Cards */}
           <div className="grid grid-cols-2 gap-4 sm:gap-5 flex-1 min-h-[190px] sm:min-h-[220px] lg:min-h-[285px]">
             {collagePhotos[2] && (
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.7, delay: 0.16, ease: [0.21, 0.47, 0.32, 0.98] }}
-                className="h-full"
-              >
+              <div className="h-full">
                 {renderCollageCard(collagePhotos[2], 2, "w-full h-full")}
-              </motion.div>
+              </div>
             )}
             {collagePhotos[3] && (
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.7, delay: 0.24, ease: [0.21, 0.47, 0.32, 0.98] }}
-                className="h-full"
-              >
+              <div className="h-full">
                 {renderCollageCard(collagePhotos[3], 3, "w-full h-full")}
-              </motion.div>
+              </div>
             )}
           </div>
         </div>
       </div>
 
       {/* Prominent Vercel-Style Interactive CTA Button */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.6, delay: 0.25 }}
-        className="mt-10 sm:mt-12 flex justify-center"
-      >
+      <div className="mt-10 sm:mt-12 flex justify-center">
         <button
           onClick={onToggleFullArchive}
-          className="group inline-flex items-center gap-3 px-6 sm:px-8 py-3.5 rounded-full bg-zinc-900 text-white hover:bg-black dark:bg-white/[0.05] dark:hover:bg-white/[0.12] dark:text-white border border-zinc-200 dark:border-white/10 dark:hover:border-white/30 font-medium text-xs sm:text-sm transition-all shadow-md dark:shadow-2xl backdrop-blur-md hover:scale-[1.02]"
+          className="group inline-flex items-center gap-3 px-6 sm:px-8 py-3.5 rounded-full bg-zinc-900 text-white hover:bg-black dark:bg-white/[0.05] dark:hover:bg-white/[0.12] dark:text-white border border-zinc-200 dark:border-white/10 dark:hover:border-white/30 font-medium text-xs sm:text-sm transition-all shadow-md dark:shadow-xl hover:scale-[1.02]"
         >
           <span>
             {showFullArchive
@@ -321,7 +279,7 @@ export function FeaturedCollage({
             }`}
           />
         </button>
-      </motion.div>
+      </div>
     </motion.section>
   );
 }

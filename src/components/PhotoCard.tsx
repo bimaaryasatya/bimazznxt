@@ -20,21 +20,20 @@ export function PhotoCard({ photo, onSelect, index }: PhotoCardProps) {
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 20 },
+        hidden: { opacity: 0, y: 16 },
         visible: {
           opacity: 1,
           y: 0,
           transition: {
-            duration: 0.4,
+            duration: 0.35,
             ease: "easeOut",
           },
         },
       }}
-      whileHover={{ scale: 1.02 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       onClick={() => onSelect(photo)}
-      className="group relative rounded-2xl overflow-hidden cursor-pointer border border-white/10 hover:border-white/30 bg-zinc-950 shadow-2xl transition-[border-color,box-shadow] duration-200 aspect-[16/11] flex flex-col justify-end select-none"
+      className="group relative rounded-2xl overflow-hidden cursor-pointer border border-white/10 hover:border-white/25 bg-zinc-950 shadow-md hover:shadow-xl transition-[border-color,box-shadow,transform] duration-300 hover:scale-[1.015] aspect-[16/11] flex flex-col justify-end select-none [transform:translateZ(0)]"
       onContextMenu={(e) => e.preventDefault()}
     >
       {/* Outer Subtle Edge Glow */}
@@ -56,29 +55,24 @@ export function PhotoCard({ photo, onSelect, index }: PhotoCardProps) {
         fill
         quality={75}
         draggable={false}
+        decoding="async"
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         loading="lazy"
         onLoad={() => setImageLoaded(true)}
-        className={`object-cover w-full h-full pointer-events-none select-none transition-transform duration-500 ease-out group-hover:scale-105 transition-opacity ${
+        className={`object-cover w-full h-full pointer-events-none select-none transition-transform duration-500 ease-out group-hover:scale-105 ${
           imageLoaded ? "opacity-100" : "opacity-0"
         }`}
       />
 
-        {/* Hover Inspect Expand Center Trigger */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.85 }}
-        animate={{
-          opacity: isHovered ? 1 : 0,
-          scale: isHovered ? 1 : 0.85,
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="absolute inset-0 flex items-center justify-center bg-black/25 backdrop-blur-[1.5px] z-20 pointer-events-none"
-      >
-        <div className="px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/25 text-white text-xs font-medium flex items-center gap-1.5 shadow-2xl">
-          <Expand className="w-3.5 h-3.5" />
-          Inspect EXIF
+      {/* Hover Inspect Expand Center Trigger (Only mounted when hovered to eliminate 100% of idle backdrop filter overhead during scroll) */}
+      {isHovered && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/35 z-20 pointer-events-none animate-in fade-in zoom-in-95 duration-150">
+          <div className="px-3.5 py-1.5 rounded-full bg-black/85 border border-white/25 text-white text-xs font-medium flex items-center gap-1.5 shadow-xl">
+            <Expand className="w-3.5 h-3.5" />
+            Inspect EXIF
+          </div>
         </div>
-      </motion.div>
+      )}
 
       {/* Bottom Gradient Overlay (Deep Contrast for Crisp Legibility) */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent z-15 pointer-events-none" />

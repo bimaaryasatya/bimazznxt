@@ -261,7 +261,7 @@ export function HomePageClient({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="relative pt-6 pb-12 border-t border-zinc-200 dark:border-white/[0.08]"
+            className="relative pt-6 pb-12 border-t border-zinc-200 dark:border-white/[0.08] [content-visibility:auto] [contain-intrinsic-size:1px_1000px]"
           >
             {/* Interactive Filter & Prompt Bar */}
             <FilterPromptBar

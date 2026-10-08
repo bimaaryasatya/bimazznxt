@@ -11,6 +11,7 @@ export const translations = {
       themeLight: "Light",
     },
     hero: {
+      badge: "Indonesian Railway Documentary Archive",
       ctaPrimary: "Explore Master Archive",
       ctaSecondary: "About & Gear",
     },
@@ -73,6 +74,7 @@ export const translations = {
       themeLight: "Terang",
     },
     hero: {
+      badge: "Arsip Dokumenter Perkeretaapian Indonesia",
       ctaPrimary: "Jelajahi Arsip Master",
       ctaSecondary: "Tentang & Gear",
     },

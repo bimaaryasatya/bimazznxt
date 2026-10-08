@@ -23,11 +23,11 @@ export function CreatorProfileSection({
   return (
     <motion.section
       id="about"
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
-      className="py-16 sm:py-24 relative border-t border-zinc-200 dark:border-white/[0.08]"
+      viewport={{ once: true, margin: "100px" }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+      className="py-16 sm:py-24 relative border-t border-zinc-200 dark:border-white/[0.08] [content-visibility:auto] [contain-intrinsic-size:1px_650px]"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
@@ -105,7 +105,7 @@ export function CreatorProfileSection({
           {/* Kolom Gambar: Sampingnya Gambar */}
           <div className="lg:col-span-5">
             <div
-              className="group relative w-full h-[320px] sm:h-[420px] lg:h-[460px] rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-950 shadow-md dark:shadow-2xl select-none"
+              className="group relative w-full h-[320px] sm:h-[420px] lg:h-[460px] rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-950 shadow-md dark:shadow-xl select-none [transform:translateZ(0)]"
               onContextMenu={(e) => e.preventDefault()}
             >
               {!imgLoaded && (
@@ -116,11 +116,13 @@ export function CreatorProfileSection({
                 src={displayImage}
                 alt={content.title || "Profil Pengkarya"}
                 fill
-                quality={90}
+                quality={75}
                 draggable={false}
+                decoding="async"
+                loading="lazy"
                 sizes="(max-width: 1024px) 100vw, 45vw"
                 onLoad={() => setImgLoaded(true)}
-                className={`object-cover w-full h-full pointer-events-none select-none transition-transform duration-700 ease-out group-hover:scale-105 ${
+                className={`object-cover w-full h-full pointer-events-none select-none transition-transform duration-500 ease-out group-hover:scale-105 ${
                   imgLoaded ? "opacity-100" : "opacity-0"
                 }`}
               />

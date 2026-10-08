@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   Globe,
   Sun,
@@ -30,19 +31,18 @@ export function Navbar({ initialBrand }: NavbarProps) {
   const { theme, toggleTheme, language, toggleLanguage, t } = useApp();
 
   useEffect(() => {
-    let ticking = false;
+    let lastScrolled = window.scrollY > 20;
+    setScrolled(lastScrolled);
+
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 15);
-          ticking = false;
-        });
-        ticking = true;
+      const isScrolled = window.scrollY > 20;
+      if (isScrolled !== lastScrolled) {
+        lastScrolled = isScrolled;
+        setScrolled(isScrolled);
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
 
     // Only fetch if initialBrand was not provided or on curator update
     const fetchBrand = async () => {
@@ -76,11 +76,14 @@ export function Navbar({ initialBrand }: NavbarProps) {
   }, [initialBrand]);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 ${
+    <motion.header
+      initial={{ opacity: 0, y: -14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed top-0 left-0 right-0 z-40 py-3 transition-[background-color,border-color,box-shadow] duration-200 [transform:translateZ(0)] ${
         scrolled
-          ? "bg-white/90 dark:bg-black/85 backdrop-blur-md border-b border-zinc-200 dark:border-white/[0.08] py-2.5 sm:py-3 shadow-sm dark:shadow-2xl"
-          : "bg-white/60 dark:bg-black/40 backdrop-blur-sm border-b border-zinc-200/60 dark:border-white/[0.05] py-3 sm:py-3.5"
+          ? "bg-white/95 dark:bg-black/90 backdrop-blur-sm border-b border-zinc-200 dark:border-white/[0.08] shadow-sm dark:shadow-xl"
+          : "bg-white/70 dark:bg-black/60 backdrop-blur-sm border-b border-zinc-200/60 dark:border-white/[0.05]"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -246,6 +249,6 @@ export function Navbar({ initialBrand }: NavbarProps) {
           </div>
         )}
       </div>
-    </header>
+    </motion.header>
   );
 }

@@ -60,30 +60,30 @@ const config: Config = {
       keyframes: {
         auroraDrift: {
           "0%": {
-            transform: "translate(0%, 0%) scale(1)",
-            opacity: "0.45",
+            transform: "translate3d(0%, 0%, 0) scale(1)",
+            opacity: "0.5",
           },
           "50%": {
-            transform: "translate(8%, 12%) scale(1.15)",
-            opacity: "0.65",
+            transform: "translate3d(8%, 10%, 0) scale(1.12)",
+            opacity: "0.75",
           },
           "100%": {
-            transform: "translate(-6%, 6%) scale(0.95)",
-            opacity: "0.4",
+            transform: "translate3d(-6%, 5%, 0) scale(0.96)",
+            opacity: "0.45",
           },
         },
         auroraDriftReverse: {
           "0%": {
-            transform: "translate(0%, 0%) scale(1.1)",
-            opacity: "0.35",
+            transform: "translate3d(0%, 0%, 0) scale(1.08)",
+            opacity: "0.45",
           },
           "50%": {
-            transform: "translate(-10%, -8%) scale(0.9)",
-            opacity: "0.6",
+            transform: "translate3d(-10%, -6%, 0) scale(0.92)",
+            opacity: "0.7",
           },
           "100%": {
-            transform: "translate(5%, -4%) scale(1.05)",
-            opacity: "0.3",
+            transform: "translate3d(6%, -3%, 0) scale(1.04)",
+            opacity: "0.4",
           },
         },
         pulseSubtle: {
